@@ -1,0 +1,136 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Management;
+using System.Net;
+using System.Runtime.InteropServices;
+using System.Timers;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Interop;
+using System.Windows.Threading;
+using System.Net.Http;
+
+namespace WidgetExampleNS
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class WidgetWindow : Window
+    {
+        private static readonly HttpClient client = new HttpClient();
+
+
+        public WidgetWindow()
+        {
+            InitializeComponent();
+
+
+            ManagementObjectSearcher searcher = new ManagementObjectSearcher(@"root\WMI", "SELECT * FROM MSStorageDriver_ATAPISmartData WHERE Active=True");
+
+
+            var timer2 = new DispatcherTimer() {Interval = new TimeSpan(0, 0, 1)};
+            timer2.Tick += (o, O) => lbMain.Content = DateTime.Now.ToString("HH:mm:ss");
+            timer2.Start();
+            // +"\n"+DateTime.Now.ToString("dd:MM:yyyy")
+
+
+
+            this.Left = Properties.Settings.Default.PozX;
+            this.Top = Properties.Settings.Default.PozY;
+
+            this.lmAbs = Properties.Settings.Default.Point;
+
+
+           
+
+
+
+
+
+
+        }
+
+        #region Bottommost
+
+        [DllImport("user32.dll")]
+        static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+        static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
+        const UInt32 SWP_NOSIZE = 0x0001;
+        const UInt32 SWP_NOMOVE = 0x0002;
+        const UInt32 SWP_NOACTIVATE = 0x0010;
+
+        private void ToBack()
+        {
+            var handle = new WindowInteropHelper(this).Handle;
+            SetWindowPos(handle, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+        }
+
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+            ToBack();
+        }
+
+        protected override void OnStateChanged(EventArgs e)
+        {
+            base.OnStateChanged(e);
+            ToBack();
+        }
+
+        #endregion
+
+        #region Move
+
+        private bool winDragged = false;
+        private Point lmAbs = new Point();
+
+        void Window_MouseDown(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            winDragged = true;
+            this.lmAbs = e.GetPosition(this);
+            this.lmAbs.Y = Convert.ToInt16(this.Top) + this.lmAbs.Y;
+            this.lmAbs.X = Convert.ToInt16(this.Left) + this.lmAbs.X;
+            Mouse.Capture(this);
+        }
+
+        void Window_MouseUp(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            winDragged = false;
+            Mouse.Capture(null);
+        }
+
+        void Window_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (winDragged)
+            {
+                Point MousePosition = e.GetPosition(this);
+                Point MousePositionAbs = new Point();
+                MousePositionAbs.X = Convert.ToInt16(this.Left) + MousePosition.X;
+                MousePositionAbs.Y = Convert.ToInt16(this.Top) + MousePosition.Y;
+                this.Left = this.Left + (MousePositionAbs.X - this.lmAbs.X);
+                this.Top = this.Top + (MousePositionAbs.Y - this.lmAbs.Y);
+
+
+
+
+
+                this.lmAbs = MousePositionAbs;
+
+                Properties.Settings.Default.PozX = this.Left;
+                Properties.Settings.Default.PozY = this.Top;
+                Properties.Settings.Default.Point = this.lmAbs;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        #endregion
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            this.WindowState = WindowState.Normal;
+        }
+    }
+}
