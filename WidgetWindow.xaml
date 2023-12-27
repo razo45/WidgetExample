@@ -4,14 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="WidgetWindow" Height="104" Width="279.673"
+        Title="WidgetWindow" Height="223" Width="587"
         WindowStyle="None"
         AllowsTransparency="True"
         ResizeMode="NoResize"
         Background="#30000000"
-        ShowInTaskbar="False"
-        MouseDown="Window_MouseDown" MouseUp="Window_MouseUp" MouseMove="Window_MouseMove" SizeChanged="Window_SizeChanged" Topmost="True" >
+        MouseDown="Window_MouseDown" MouseUp="Window_MouseUp" MouseMove="Window_MouseMove" SizeChanged="Window_SizeChanged" Topmost="True" ShowInTaskbar="False" Loaded="Window_Loaded" >
     <Grid Background="#00FFFFFF">
-        <Label x:Name="lbMain" Content="Time" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontSize="72" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,-5,0,0"/>
+        <Label x:Name="lbMain" Content="Time" Foreground="White" FontSize="70" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Margin="0,112,10,0"/>
+        <Label x:Name="lbMain1" Content="Time" Foreground="White" FontSize="70" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Margin="0,0,25,111"/>
+        <Button Content="X" Margin="567,0,0,0" VerticalAlignment="Top" Height="20" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Padding="1,-4,1,1" Click="Button_Click" FontSize="18"/>
     </Grid>
 </Window>
