@@ -4,15 +4,29 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="WidgetWindow" Height="223" Width="587"
+        Title="WidgetWindow" Width="158"
         WindowStyle="None"
         AllowsTransparency="True"
         ResizeMode="NoResize"
         Background="#30000000"
-        MouseDown="Window_MouseDown" MouseUp="Window_MouseUp" MouseMove="Window_MouseMove" SizeChanged="Window_SizeChanged" Topmost="True" ShowInTaskbar="False" Loaded="Window_Loaded" >
-    <Grid Background="#00FFFFFF">
-        <Label x:Name="lbMain" Content="Time" Foreground="White" FontSize="70" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Margin="0,112,10,0"/>
-        <Label x:Name="lbMain1" Content="Time" Foreground="White" FontSize="70" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Margin="0,0,25,111"/>
-        <Button Content="X" Margin="567,0,0,0" VerticalAlignment="Top" Height="20" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Padding="1,-4,1,1" Click="Button_Click" FontSize="18"/>
+        MouseDown="Window_MouseDown" MouseUp="Window_MouseUp" MouseMove="Window_MouseMove" SizeChanged="Window_SizeChanged" Topmost="True" ShowInTaskbar="False" Loaded="Window_Loaded" Height="251"  >
+    <Grid Background="#00FFFFFF" >
+        <Label x:Name="lbMain1" Content="Сейчас -2" Foreground="White" FontSize="18" HorizontalContentAlignment="Left" Margin="0,51,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Padding="5,0,5,5"/>
+        <Label x:Name="lbMain" Content="10:55:22" Foreground="White" FontSize="35" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Label x:Name="lbMain1_Копировать" Content="Заметка:" Foreground="White" FontSize="11" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Margin="0,94,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <RichTextBox Height="135" VerticalAlignment="Top" Margin="0,116,0,0" Background="{x:Null}" Foreground="White" SelectionTextBrush="{x:Null}" BorderBrush="{x:Null}" TextChanged="RichTextBox_TextChanged">
+            <RichTextBox.Resources>
+                <Style TargetType="Paragraph">
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="LineHeight" Value="1.5"/>
+                    <Setter Property="FontSize" Value="12"/>
+                </Style>
+            </RichTextBox.Resources>
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text=""/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
     </Grid>
 </Window>

@@ -37,14 +37,15 @@ namespace WidgetExampleNS
 
             string a = string.Empty;
             a = Task.Run(() => MakeRequest()).Result;
-            double currentTemperature = GetTemperatureForCurrentTime(a);
-            lbMain1.Content = "Сейчас: " + (currentTemperature + 1) + "C°";
+            double currentTemperature  = GetTemperatureForCurrentTime(a);
+            int roundedValue = (int)Math.Round(currentTemperature + 1);
+            lbMain1.Content = "Сейчас: " + (roundedValue ) + "C°";
             var timer2 = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 1) };
             timer2.Tick += (o, e) =>
             {
 
                 lbMain.Content = DateTime.Now.ToString("HH:mm:ss");
-
+              
             };
             timer2.Start();
 
@@ -241,7 +242,13 @@ namespace WidgetExampleNS
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            
             this.Close();
+        }
+
+        private void RichTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
         }
     }
 }
